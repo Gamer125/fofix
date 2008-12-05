@@ -1,5 +1,5 @@
 call ClearCompiledPycs
-python FretsOnFire.py
+c:\python25\python FretsOnFire.py
 cd scripts
 call ClearCompiledPycs
 pause

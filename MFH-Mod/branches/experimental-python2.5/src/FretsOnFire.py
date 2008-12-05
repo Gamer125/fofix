@@ -165,9 +165,9 @@ def main():
             os.execl("./FretsOnFire", "./FretsOnFire", *sys.argv[1:])
         else:
           if os.name == "nt":
-            bin = "c:/python24/python"
+            bin = "c:/python25/python"
           else:
-            bin = "/usr/bin/python2.4"
+            bin = "/usr/bin/python2.5"
           os.execl(bin, bin, "FretsOnFire.py", *sys.argv[1:])
       except:
         Log.warn("Restart failed.")

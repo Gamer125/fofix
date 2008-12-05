@@ -26,7 +26,7 @@ import re
 import os
 from xml import sax
 from OpenGL.GL import *
-from Numeric import reshape, matrixmultiply, transpose, identity, zeros, Float
+from numpy import reshape, dot, transpose, identity, zeros, float
 from math import sin, cos
 
 import Log
@@ -56,7 +56,7 @@ class SvgGradient:
     self.transform = transform
 
   def applyTransform(self, transform):
-    m = matrixmultiply(transform.matrix, self.transform.matrix)
+    m = dot(transform.matrix, self.transform.matrix)
     self.gradientDesc.SetMatrix(transform.getGMatrix(m))
 
 class SvgContext:
@@ -229,35 +229,35 @@ class SvgTransform:
         e = [float(c) for c in m.groups()]
         e = [e[0], e[2], e[4], e[1], e[3], e[5], 0, 0, 1]
         m = reshape(e, (3, 3))
-        self.matrix = matrixmultiply(self.matrix, m)
+        self.matrix = dot(self.matrix, m)
 
   def transform(self, transform):
-    self.matrix = matrixmultiply(self.matrix, transform.matrix)
+    self.matrix = dot(self.matrix, transform.matrix)
 
   def reset(self):
-    self.matrix = identity(3, typecode = Float)
+    self.matrix = identity(3, dtype = float)
 
   def translate(self, dx, dy):
-    m = zeros((3, 3))
+    m = zeros((3, 3), dtype = int)
     m[0, 2] = dx
     m[1, 2] = dy
     self.matrix += m
 
   def rotate(self, angle):
-    m = identity(3, typecode = Float)
+    m = identity(3, dtype = float)
     s = sin(angle)
     c = cos(angle)
     m[0, 0] =  c
     m[0, 1] = -s
     m[1, 0] =  s
     m[1, 1] =  c
-    self.matrix = matrixmultiply(self.matrix, m)
+    self.matrix = dot(self.matrix, m)
 
   def scale(self, sx, sy):
-    m = identity(3, typecode = Float)
+    m = identity(3, dtype = float)
     m[0, 0] = sx
     m[1, 1] = sy
-    self.matrix = matrixmultiply(self.matrix, m)
+    self.matrix = dot(self.matrix, m)
 
   def applyGL(self):
     # Interpret the 2D matrix as 3D

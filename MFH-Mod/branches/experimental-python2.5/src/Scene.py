@@ -35,7 +35,7 @@ from OpenGL.GLU import *
 import math
 import colorsys
 import pygame
-from numpy import array, float, transpose, reshape, dot
+from numpy import array, transpose, reshape, dot, float32
 
 Config.define("network", "updateinterval", int, 72)
 
@@ -122,12 +122,11 @@ class BoxActor(Actor):
     T = array((R[0], R[3], R[6], 0,
                R[1], R[4], R[7], 0,
                R[2], R[5], R[8], 0,
-                  x,    y,    z, 1), float)
+                  x,    y,    z, 1), float32)
     glPushMatrix()
-    #glMultMatrixd(T.tolist())
     glMultMatrix(T)
     sx, sy, sz = self.size
-    glScalef(sx, sy, sz)
+    glScale(sx, sy, sz)
 
     glDisable(GL_LIGHTING)
     glEnable(GL_BLEND)
@@ -135,13 +134,13 @@ class BoxActor(Actor):
 
     glFrontFace(GL_CW)
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
-    glColor3f(1, 1, 1)
+    glColor3i(1, 1, 1)
     #glutSolidCube(1)
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
     glEnable(GL_LIGHTING)
     glFrontFace(GL_CCW)
     glColor4f(*[abs(x) + .3 for x in self.body.getLinearVel() + (.5,)])
-    glScalef(.97, .97, .97)
+    glScale(.97, .97, .97)
     #glutSolidCube(1)
     glDisable(GL_LIGHTING)
     glPopMatrix()

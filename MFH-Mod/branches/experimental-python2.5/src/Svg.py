@@ -26,7 +26,7 @@ import re
 import os
 from xml import sax
 from OpenGL.GL import *
-from numpy import reshape, dot, transpose, identity, zeros, float
+from numpy import reshape, dot, transpose, identity, zeros, float32, int16
 from math import sin, cos
 
 import Log
@@ -235,16 +235,16 @@ class SvgTransform:
     self.matrix = dot(self.matrix, transform.matrix)
 
   def reset(self):
-    self.matrix = identity(3, dtype = float)
+    self.matrix = identity(3, dtype = float32)
 
   def translate(self, dx, dy):
-    m = zeros((3, 3), dtype = int)
+    m = zeros((3, 3), dtype = int16)
     m[0, 2] = dx
     m[1, 2] = dy
     self.matrix += m
 
   def rotate(self, angle):
-    m = identity(3, dtype = float)
+    m = identity(3, dtype = float32)
     s = sin(angle)
     c = cos(angle)
     m[0, 0] =  c
@@ -254,7 +254,7 @@ class SvgTransform:
     self.matrix = dot(self.matrix, m)
 
   def scale(self, sx, sy):
-    m = identity(3, dtype = float)
+    m = identity(3, dtype = float32)
     m[0, 0] = sx
     m[1, 1] = sy
     self.matrix = dot(self.matrix, m)

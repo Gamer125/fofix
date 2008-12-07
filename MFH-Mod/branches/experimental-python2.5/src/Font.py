@@ -208,7 +208,7 @@ class Font:
     glEnableClientState(GL_TEXTURE_COORD_ARRAY)
 
     glPushMatrix()
-    glPushClientAttrib()
+    glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS)
     glTranslatef(pos[0], pos[1], 0)
     
     if self.reversed:
@@ -218,7 +218,7 @@ class Font:
       glPushAttrib(GL_CURRENT_BIT)
       glPushMatrix()
       glColor4f(0, 0, 0, .25 * glGetFloat(GL_CURRENT_COLOR)[3])
-      glPushClientAttrib()
+      glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS)
       for ch in text:
         g = self.getGlyph(ch)
         # evilynux - Fixed bug, self.scaling must not be applied twice!
@@ -249,7 +249,7 @@ class Font:
       glPushAttrib(GL_CURRENT_BIT)
       glPushMatrix()
       glColor4f(0, 0, 0, 1)
-      glPushClientAttrib()
+      glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS)
       for ch in text:
         g = self.getGlyph(ch)
         # evilynux - Fixed bug, self.scaling must not be applied twice!

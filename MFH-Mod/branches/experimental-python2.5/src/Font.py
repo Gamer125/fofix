@@ -208,6 +208,7 @@ class Font:
     glEnableClientState(GL_TEXTURE_COORD_ARRAY)
 
     glPushMatrix()
+    glPushClientAttrib()
     glTranslatef(pos[0], pos[1], 0)
     
     if self.reversed:
@@ -216,7 +217,8 @@ class Font:
     if self.outline:
       glPushAttrib(GL_CURRENT_BIT)
       glPushMatrix()
-      glColor4f(0, 0, 0, .25 * glGetDoublev(GL_CURRENT_COLOR)[3])
+      glColor4f(0, 0, 0, .25 * glGetFloat(GL_CURRENT_COLOR)[3])
+      glPushClientAttrib()
       for ch in text:
         g = self.getGlyph(ch)
         # evilynux - Fixed bug, self.scaling must not be applied twice!
@@ -239,6 +241,7 @@ class Font:
                      w * direction[1],
                      w * direction[2])
 
+      glPopClientAttrib()
       glPopAttrib()
       glPopMatrix()
 
@@ -246,6 +249,7 @@ class Font:
       glPushAttrib(GL_CURRENT_BIT)
       glPushMatrix()
       glColor4f(0, 0, 0, 1)
+      glPushClientAttrib()
       for ch in text:
         g = self.getGlyph(ch)
         # evilynux - Fixed bug, self.scaling must not be applied twice!
@@ -266,6 +270,7 @@ class Font:
                      w * direction[1],
                      w * direction[2])
 
+      glPopClientAttrib()
       glPopAttrib()
       glPopMatrix()
 
@@ -304,6 +309,7 @@ class Font:
                    w * direction[1],
                    w * direction[2])
 
+    glPopClientAttrib()
     glPopMatrix()
 
     glDisableClientState(GL_VERTEX_ARRAY)
@@ -332,7 +338,7 @@ class Font:
 
     if self.outline:
       glPushAttrib(GL_CURRENT_BIT)
-      glColor4f(0, 0, 0, glGetFloatv(GL_CURRENT_COLOR)[3])
+      glColor4f(0, 0, 0, glGetFloat(GL_CURRENT_COLOR)[3])
       self._renderString(text, (pos[0] + 0.003, pos[1] + 0.003), direction, scale)
       glPopAttrib()
 

@@ -57,7 +57,7 @@ class View(Task):
     self.outgoing = []
     self.visibility = {}
     self.transitionTime = 512.0
-    self.geometry = geometry or glGetIntegerv(GL_VIEWPORT)
+    self.geometry = geometry or glGetInteger(GL_VIEWPORT)
     self.savedGeometry = None
     self.engine = engine
     w = self.geometry[2] - self.geometry[0]
@@ -138,7 +138,7 @@ class View(Task):
     glPushMatrix()
     glLoadIdentity()
 
-    viewport = glGetIntegerv(GL_VIEWPORT)
+    viewport = glGetInteger(GL_VIEWPORT)
     if normalize:
       w = viewport[2] - viewport[0]
       h = viewport[3] - viewport[1]
@@ -163,7 +163,7 @@ class View(Task):
     glPopMatrix()
 
   def setGeometry(self, geometry, screens=1):
-    viewport = glGetIntegerv(GL_VIEWPORT)
+    viewport = glGetInteger(GL_VIEWPORT)
     w = viewport[2] - viewport[0]
     h = viewport[3] - viewport[1]
     s = (w, h, w, h)

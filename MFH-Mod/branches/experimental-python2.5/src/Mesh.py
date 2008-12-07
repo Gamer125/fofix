@@ -38,9 +38,9 @@ class Mesh:
     l = light.techniqueCommon
     glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0 + n)
-    glLightfv(GL_LIGHT0 + n, GL_POSITION, (pos[0], pos[1], pos[2], 0.0))
-    glLightfv(GL_LIGHT0 + n, GL_DIFFUSE, (l.color[0], l.color[1], l.color[2], 0.0))
-    glLightfv(GL_LIGHT0 + n, GL_AMBIENT, (0.0, 0.0, 0.0, 0.0))
+    glLight(GL_LIGHT0 + n, GL_POSITION, (pos[0], pos[1], pos[2], 0.0))
+    glLight(GL_LIGHT0 + n, GL_DIFFUSE, (l.color[0], l.color[1], l.color[2], 0.0))
+    glLight(GL_LIGHT0 + n, GL_AMBIENT, (0.0, 0.0, 0.0, 0.0))
 
   def setupMaterial(self, material):
     for m in material.techniqueCommon.iMaterials:
@@ -50,9 +50,9 @@ class Mesh:
             shader = fx.object.profileCommon.technique.shader
             if isinstance(shader, Collada.DaeFxShadePhong):
               glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS, shader.shininess.float)
-              glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   shader.ambient.color.rgba)
-              glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   shader.diffuse.color.rgba)
-              glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  shader.specular.color.rgba)
+              glMaterial(GL_FRONT_AND_BACK, GL_AMBIENT,   shader.ambient.color.rgba)
+              glMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE,   shader.diffuse.color.rgba)
+              glMaterial(GL_FRONT_AND_BACK, GL_SPECULAR,  shader.specular.color.rgba)
 
   def render(self, geomName = None):
     if geomName in self.fullGeoms:

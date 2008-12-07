@@ -73,10 +73,6 @@ Config.define("audio",  "frequency",    int,   44100, text = _("Sample Frequency
 Config.define("audio",  "bits",         int,   16,    text = _("Sample Bits"), options = [16, 8])
 Config.define("audio",  "stereo",       bool,  True)
 
-#MFH - Frame Buffer Object support: nevermind, needs GLEWpy and Pyrex and some other such addon...
-#Config.define("opengl",  "supportfbo",       bool,  True)
-
-
 #used internally:
 Config.define("game",   "players",             int,   1)
 Config.define("player0","mode_1p",           int,  0)

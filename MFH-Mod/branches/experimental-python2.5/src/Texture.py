@@ -32,8 +32,6 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from Queue import Queue, Empty
 
-Config.define("opengl", "supportfbo", bool, False)
-
 try:
   from glew import *
 except ImportError:
@@ -67,18 +65,14 @@ class Texture:
     self.framebuffer = None
 
     self.setDefaults()
-    self.name = name
+    self.name = None
 
     if name:
-      self.loadFile(name)
+      self.loadImgFile(name)
 
-  def loadFile(self, name):
-    """Load the texture from disk, using PIL to open the file"""
-    self.loadImage(Image.open(name))
-    self.name = name
-
-  def loadImage(self, image):
+  def loadImgFile(self, name):
     """Load the texture from a PIL image"""
+    image = Image.open(name)
     image = image.transpose(Image.FLIP_TOP_BOTTOM)
     if image.mode == "RGBA":
       string = image.tostring('raw', 'RGBA', 0, -1)
@@ -91,6 +85,7 @@ class Texture:
       self.loadRaw(image.size, string, GL_LUMINANCE, 1)
     else:
       raise TextureException("Unsupported image mode '%s'" % image.mode)
+    self.name = name
 
   def nextPowerOfTwo(self, n):
     m = 1

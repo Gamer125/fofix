@@ -142,14 +142,17 @@ class Data(object):
       font3     = lambda: Font(pauseFont, fontSize[2], scale = scale2, reversed = reversed, systemFont = not asciiOnly)
     font4     = lambda: Font(scoreFont, fontSize[3], scale = scale2, reversed = reversed, systemFont = not asciiOnly, outline = False)
     font5     = lambda: Font(streakFont, fontSize[3], scale = scale2, reversed = reversed, systemFont = not asciiOnly, outline = False)
-    font6     = lambda: Font(loadingFont, fontSize[3], scale = scale2, reversed = reversed, systemFont = not asciiOnly, outline = False)
+    if self.theme == 1:
+      font6     = lambda: Font(loadingFont, fontSize[3], scale = scale2, reversed = reversed, systemFont = not asciiOnly, outline = False, shadow = True) #Worldrave - Added shadow to Loading Phrases in GH-Based Theme's
+    else:
+      font6     = lambda: Font(loadingFont, fontSize[3], scale = scale2, reversed = reversed, systemFont = not asciiOnly, outline = False)
     if self.theme == 2:
       font7     = lambda: Font(songFont, fontSize[4], scale = scale2, reversed = reversed, systemFont = not asciiOnly, outline = False)#kk69: loads font specific for song name in Guitar Scene =)
     else:
       font7     = lambda: Font(songFont, fontSize[0], scale = scale2, reversed = reversed, systemFont = not asciiOnly, outline = False)#kk69: loads font specific for song name in Guitar Scene =)
     font8     = lambda: Font(songListFont, fontSize[3], scale = scale2, reversed = reversed, systemFont = not asciiOnly, outline = False) #MFH
     font9     = lambda: Font(shadowfont, fontSize[3], scale = scale2, reversed = reversed, systemFont = not asciiOnly, outline = False, shadow = True) #blazingamer
-    font10    = lambda: Font(streakFont2, fontSize[2], scale = scale2*.65, reversed = reversed, systemFont = not asciiOnly, outline = False, shadow = True) #blazingamer - Worldrave Modified (- .18)
+    font10    = lambda: Font(streakFont2, fontSize[2], scale = scale2*1.08, reversed = reversed, systemFont = not asciiOnly, outline = False, shadow = True) #blazingamer - Worldrave modified size to accuracy.
 
 
     resource.load(self, "font",         font1, onLoad = self.customizeFont, synch = True)
@@ -197,7 +200,7 @@ class Data(object):
       resource.load(self, "lfont",         font2, onLoad = self.customizeFont, synch = True)
       resource.load(self, "font",          font1, onLoad = self.customizeFont, synch = True)
     elif self.theme == 1:
-      font1     = lambda: Font(menuFont,  fontSize[3], scale = scale*.5, reversed = reversed, systemFont = not asciiOnly)
+      font1     = lambda: Font(menuFont,  fontSize[3], scale = scale*.5, reversed = reversed, systemFont = not asciiOnly, outline = False) #Worldrave - Removed outline from options text on GH-Based theme's. No other drawbacks noticed.
       font2     = lambda: Font(menuFont,  fontSize[3], scale = scale*.5, reversed = reversed, systemFont = not asciiOnly, outline = False)
       resource.load(self, "lfont",         font2, onLoad = self.customizeFont, synch = True)
       resource.load(self, "font",          font1, onLoad = self.customizeFont, synch = True)

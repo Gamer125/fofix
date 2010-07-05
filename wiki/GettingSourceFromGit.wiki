@@ -1,0 +1,23 @@
+#summary How to get source code from Git.
+
+We used to use the Subversion repository here, but now we use a Git repository on !GitHub.  If you want to browse the repository on the web, [http://github.com/stump/fofix do it over there].
+
+=== Accessing the Git repository ===
+
+Clone the repository with:
+ `git clone git://github.com/stump/fofix.git`
+
+Update your clone with the latest changes with:
+ `git pull`
+
+If you don't have Git, you can get it from:
+  * Windows: [http://code.google.com/p/msysgit msysgit]
+  * Mac OS X: [http://code.google.com/p/git-osx-installer git-osx-installer]
+  * GNU/Linux: Use your package manager to install the appropriate packages (`git-core` under Debian, Ubuntu, and Fedora)
+
+[http://progit.org/book/ch1-4.html More information on installing Git]
+
+There is a lot of nice extra documentation out there for using Git, such as:
+  * [http://gitref.org GitRef]
+  * [http://progit.org Pro Git]
+  * [http://git-scm.com/documentation The things linked from the Git website's documentation page.]

@@ -243,6 +243,7 @@ Notice - If you just want the default phrases to show do not put these in your t
 ||fret2_color = #FFFF22||Manually sets 3rd fret tail color. Use a Hex Color Value.||
 ||fret3_color = #3333FF||Manually sets 4tg fret tail color. Use a Hex Color Value.||
 ||fret4_color = #FF9933||Manually sets 5th fret tail color. Use a Hex Color Value.||
+||use_fret_colors = false||Saturates the notes with the chosen fret colors.||
 ||fretS_color = #4CB2E5||Manually sets all tails and notes color when StarPower is active. Use a Hex Color Value.||
 ||fretK_color = #000000||Manually sets killswitch tail color FX (#000000 means color FX is disabled) . Use a Hex Color Value.||
 ||hopo_color = #EEEEEE||Controls HO/PO color. Use a Hex Color Value.||

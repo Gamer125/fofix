@@ -108,7 +108,7 @@ gstreamer-plugin-ffmpeg python-gst0.10
 See the [#Generic_instructions generic instructions] above for getting and executing FoFiX.
 
 ==Archlinux ==
-Get and install the latest PKGBUILD from [http://aur.archlinux.org/packages.php?ID=20454 this page].
+Get and install the latest PKGBUILD from [http://aur.archlinux.org/packages.php?ID=40614 this page].
 
 ==OpenSUSE==
 Get and install the latest RPM from [http://packman.links2linux.org/package/fofix this page].

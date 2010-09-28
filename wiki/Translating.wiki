@@ -1,4 +1,4 @@
-#labels Phase-Implementation
+#labels Deprecated
 = This page has moved. =
 
 == [http://github.com/stump/fofix/blob/i18n_unicode/doc/TranslatingFoFiX.mkd#readme Information on translating FoFiX 4.0.0 Development (i18n_unicode branch) is now here.] ==

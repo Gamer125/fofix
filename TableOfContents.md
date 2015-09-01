@@ -1,0 +1,18 @@
+## Other Pages ##
+  * [BasicInstructions](BasicInstructions.md)
+  * [GameControllers](GameControllers.md)
+  * [FAQ](FAQ.md)
+  * [ThemeFileSettings](ThemeFileSettings.md)
+  * [SongINIInstructions](SongINIInstructions.md)
+  * [CareerTitlesIniInstructions](CareerTitlesIniInstructions.md)
+  * [KnownIssues](KnownIssues.md)
+  * [ReportingBugs](ReportingBugs.md)
+  * [RequiredSourceModules](RequiredSourceModules.md)
+  * [RunningUnderPython26](RunningUnderPython26.md)
+  * [RunningUnderGNULinux](RunningUnderGNULinux.md)
+  * [Translating](Translating.md)
+  * [Shaders](Shaders.md)
+  * [Roadmap](Roadmap.md)
+  * [ProjectStatistics](ProjectStatistics.md)
+
+  * [OldNews](OldNews.md)

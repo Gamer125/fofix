@@ -1,0 +1,297 @@
+# Introduction #
+
+Custom rockmeters are something that have been in development since the beginning of FoFiX 4.  They allow themers to take the in-game visuals even further than before by no longer being restricted to the Guitar Hero or Rockband style.  This even helps us as programmers because we no longer have to be the ones to get the rockmeters looking as close to the originals as possible.  Changing from hard-coded to flexible .ini files really helps code maintainability as well as allows the community to be way more creative with FoFiX than ever before.  So let's take a look at how this is done.  All examples given will come directly from MegaLight v4 which is packaged with all copies of FoFiX 4
+
+
+
+<a href='Hidden comment: 
+|| This comment puts the tables underneath the nav bar on the side and makes it take up the whole width of the page ||
+|| This comment needs to contain a table for some reason, or it won"t have the desired effect || (I don"t get it either) ||
+'></a>
+
+
+
+&lt;BR&gt;
+
+
+
+---
+
+
+
+&lt;BR&gt;
+
+
+
+# The Layer #
+Let's start of with an already made layer from MegaLight v4
+
+```
+[layer0:Image]
+texture = bar.png
+yscale = 270
+xscale = 100
+inPixels = xscale|yscale
+valignment = bottom
+rect = (1.0/3.0, 2.0/3.0, 1.0-rock, 1.0)
+```
+
+This layer is actually very basic in terms of what you can do, which makes it a perfect example for explaining.
+
+## The Header ##
+The header of the layer defines which layer number it is and what type it is.
+  * numbers can range from 0-99
+  * there are 4 types: Image, Text, Circle, and Custom, all of which I will explain later
+
+`[layer<Number>:<type>]`
+
+## Common Parameters ##
+These are parameters shared across all layer types
+
+|**Parameter**|**Description**|**Evaluatable**|**Things to consider**|
+|:------------|:--------------|:--------------|:---------------------|
+|x/ypos       |position on screen|Yes            |Bottom Left = (0.0,0.0), Top Right = (1.0,1.0)|
+|x/yscale     |how much the layer will be scaled by.|Yes            |Negative values will flip the image|
+|color        |Color saturation of the layer|No             |The values are Hex with either 3 or 4 channels.  #000000 is black, #FFFFFF is full color|
+|alignment    |side by which the layer will be anchored (horizontal)|No             |possible values are LEFT, RIGHT, and CENTER|
+|valignment   |side by which the layer will be anchored (vertical)|No             |possible values are TOP, MIDDLE, and BOTTOM|
+|inPixels     |determines which values are in terms of pixels|No             |for x/ypos screen is in scale of 800x600 resolution|
+|condition    |when should the layer render|Yes            |and and or from python can be used in this.  Remember python boolean standards when writing conditions|
+
+## Layer Specific Parameters ##
+
+### Image Layer ###
+|**Parameter**|**Description**|**Evaluatable**|**Things to consider**|
+|:------------|:--------------|:--------------|:---------------------|
+|texture      |The image file to use for the layer|No             |The default directory for image files is the rockmeter folder within the theme|
+|rect         |Cropping rectangle for the image|Yes            |order of values is left, right, top, bottom.  Values need to be between 0 (Left/Top edge) to 1.0 (Right/Bottom edge)|
+
+### Font Layer ###
+|**Parameter**|**Description**|**Evaluatable**|**Things to consider**|
+|:------------|:--------------|:--------------|:---------------------|
+|text         |The text to be drawn|Yes            |If you want to add variables into a string follow the modulo substituion rules for strings.|
+|font         |The font to be used by the layer|No             |Fonts are in terms of their engine name for now.  Hopefully this will be fixed in the future|
+|replace      |Replaces characters in the string|No             |Split by _character on the left will be replace with the character on the right_|
+|useComma     |When drawing numbers, use a comma every 3 digits|No             |Rockband does this and it is the traditional way to write large numbers|
+|shadow       |Text will cast a shadow|No             |True or False         |
+|outline      |Text will have a blurry outline around it|No             |The outline is of the same color as the text|
+|shadowOpacity|The alpha value of the shadow|No             |0.0 = No shadow, 1.0 = solid black|
+
+### Circle Layer ###
+|**Parameter**|**Description**|**Evaluatable**|**Things to consider**|
+|:------------|:--------------|:--------------|:---------------------|
+|texture      |The image file to use for the layer|No             |The default directory for image files is the rockmeter folder within the theme|
+|ratio        |Percentage of the circle to be drawn|Yes            |                      |
+
+
+
+&lt;BR&gt;
+
+
+
+---
+
+
+
+&lt;BR&gt;
+
+
+
+# The Effect #
+
+Effects are applied each time the layer is updated.  Effects can be as simple as sliding the layer across the screen to animating explosions if you feel like it.
+
+```
+[layer18:fx0:Fade]
+color = #FFFFFF00
+fadeTo = #FFFFFFFF
+transitionTime = 1000.0
+condition = self.stage.scene.countdownOK
+```
+
+This layer fades in the timer once the countdown starts
+
+## The Header ##
+The header of the layer defines which layer the effect belongs to, which effect it is, and what type it is.
+  * effects numbers can range from 0-5
+  * there are 5 types: Slide, Scale, Fade, Replace, Animate
+
+`[layer<Number>:fx<Number>:<type>]`
+
+  * **Things to take notice of:** the higher the number of the layer or group, the further front it will be when rendered!  As for effects, the higher the number the greater its priority.
+
+## Incrementing Effects ##
+These effects are special in that they will smoothly transition between start and end values in a specified amount of milliseconds.  The effects that are capable of doing this are Slide, Scale, and Fade.
+
+### Common Parameters ###
+|**Parameter**|**Description**|**Things to consider**|
+|:------------|:--------------|:---------------------|
+|TransitionTime|Time in milliseconds it takes to transition to the end values|
+|TransitionTimeOut|Time in milliseconds it takes to transition back to the start values|
+|condition    |Determines when the effect is transitioning to end (True) or start (false)|                      |
+
+### Slide/Scale Parameters ###
+|**Parameter**|**Description**|**Things to consider**|
+|:------------|:--------------|:---------------------|
+|startX/Y     |Starting x/y position or width/height|work the same way as with the original group or layer's properties|
+|endX/Y       |Ending x/y position or width/height|
+
+### Fade Parameters ###
+|color|Starting color|can be 3-4 channel Hexadecimal color (think HTML)|
+|:----|:-------------|:------------------------------------------------|
+|fadeTo|Ending color  |                                                 |
+
+## Other Effects ##
+These effects are very closely related in how they are programmed, but their function is a bit different.
+
+### Replace ###
+Replace will replace the layer's contents with that specified by the effect
+
+|Parameter|Description|Things to consider|Applies to|
+|:--------|:----------|:-----------------|:---------|
+|texture  |texture to replace the image with|You can have multiple images and conditions by splitting them with the '|' character|ImageLayers and everything extending them|
+|rect     |new rect for the image|same as above     |same as above|
+|text     |new words to render|same as above     |FontLayer |
+
+### Animate ###
+Animate only works with ImageLayers and will automatically parse the image's rect horizontally for it to scroll through.
+
+|Parameter|Description|Things to consider|
+|:--------|:----------|:-----------------|
+|frames   |Amount of frames in the animation|It already works in relation to the parent's rect, so you can even have multiple animations in one image if you feel the need|
+|fps      |Rate at while the image scrolls through the frames|Even if you're gettin 800+ fps, this restricts the animation to run at however many you set.  This works in the opposite way as well, if you're getting 15 fps and you have the animation set to 30 fps, it will skip frames|
+
+
+
+&lt;BR&gt;
+
+
+
+---
+
+
+
+&lt;BR&gt;
+
+
+
+# The Group #
+
+Groups are designed to be like layer groups in applications like photoshop.  Groups are a subclass of layers themselves, so certain effects can be applied to them (Slide, Scale, and Fade) and can have all the common parameters applied to them as well.
+
+```
+[Group1]
+layers = 8,9,10,11
+
+[Group1:fx0:Slide]
+startX = 1.3
+endX = 1.0
+startY = .145
+endY = .145
+transitionTime = 1000.0
+condition = self.stage.layerGroups[2].position[1] >= .05
+```
+
+## The Header ##
+The header of the group defines which group number it is.
+  * numbers can range from 0-50
+
+`[Group<Number>]`
+
+  * **Remember:** All parameters, headers, etc. are CaSe SEnSiTivE!
+
+## Group Specific Parameters ##
+|**Parameter**|**Description**|**Things to consider**|
+|:------------|:--------------|:---------------------|
+|layers       |list of the layers that you want included (just their numbers), divided by commas|while it is not necessary, it is considered go practice to declare your groups after the layers that are required in the group are typed up in your rockmeter.ini|
+
+
+
+&lt;BR&gt;
+
+
+
+---
+
+
+
+&lt;BR&gt;
+
+
+# List of Available Variables #
+
+|**Variable name**|**Stored Value**|**Things to Consider**|
+|:----------------|:---------------|:---------------------|
+|player           |object that represents the player|                      |
+|playerNum        |the player number|                      |
+|playerName       |the player's name|                      |
+|part             |the player's part/instrument|                      |
+|score            |player's score  |replaced with CoOp score in CoOp modes|
+|streak           |player's streak |                      |
+|streakMax        |amount of notes it takes to hit max multiplier|40 is normal, 60 for bass guitar|
+|power            |star power fill amount|value between 0.0 and 1.0|
+|stars            |how many stars earned|Maximum is 6-7 stars  |
+|partialStars     |percentage of the current star earned|value between 0.0 and 1.0|
+|rock             |rock meter fill amount|value between 0.0 and 1.0|
+|coop\_rock       |coop rock meter fill amount|only available in CoOp modes|
+|multiplier       |player's multiplier|                      |
+|bassgroove       |if a player is a bass guitar and their streak is over 30, they enter bass groove|                      |
+|boost            |keeps track if a player is boosting their multiplier (star power/overdrive activated)|                      |
+|minutes          |how many minutes into the song it is|                      |
+|seconds          |how many seconds into the song it is (0-59)|                      |
+|minutesCountdown |how many minutes left|                      |
+|secondsCountdown |how many seconds left|                      |
+|songLength       |length of the song (milliseconds)|                      |
+|minutesSongLength|length of the song in minutes|                      |
+|secondsSongLength|length of the song in seconds (0-59)|                      |
+|position         |millisecond position in the song|                      |
+|countdownPosition|milliseconds left|                      |
+|progress         |this gives a percentage of how far the song has played|between 0.0 and 1.0   |
+
+
+
+&lt;BR&gt;
+
+
+
+---
+
+
+
+&lt;BR&gt;
+
+
+
+# Advanced Variable Manipulation (ADVANCED TOPIC) #
+Not satisfied with the variables provided?  You can go even further when referencing variables if you know enough of the code base.  Use self.stage to get access to the rockmeter class's variables and self.stage.scene to get access to the GuitarScene class.  Example of a possibly important one for you?
+
+```
+self.stage.scene.boardY
+```
+
+That variable is the tracker for the time into the animation for the fretboard transitioning in before the song starts.  Another example is given earlier in the examples for effects and groups.  Hope this cleared things up for you if you saw those values and had no idea what they were.  Congrats, you just learned a bit of python.
+
+
+
+&lt;BR&gt;
+
+
+
+---
+
+
+
+&lt;BR&gt;
+
+
+
+# About Custom Layers (ADVANCED TOPIC) #
+Custom Layers are for when you want to do something that the code that is already available to themers isn't capable of doing.  You need to know python if you want to do this, and you need to be familiar with the code of the Rockmeter.py.  If you are not careful you can break your game.  This is fully executable code read in by the engine.
+
+To start creating a custom layer you first need to make a file in your theme's folder called CustomRMLayers.py.  To have access to all the rockmeter's code and global variables you need to add this to the top of the file.
+
+```
+from Rockmeter import *
+```
+
+From there on just start working your programming magic.  We're not here to teach you python, but if you already know it you can take advantage of your knowledge and freely use it in your rockmeter.  Remember, because Groups extend the base Layer class for rockmeters, you can even have custom groups!
